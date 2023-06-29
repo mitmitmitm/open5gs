@@ -928,9 +928,14 @@ int ogs_sbi_parse_header(ogs_sbi_message_t *message, ogs_sbi_header_t *header)
 
     header->api.version = ogs_sbi_parse_uri(NULL, "/", &saveptr);
     if (!header->api.version) {
-        ogs_error("ogs_sbi_parse_uri() failed");
-        ogs_free(uri);
-        return OGS_ERROR;
+        if (strcmp(header->service.name, OGS_SBI_SERVICE_NAME_LIVEZ) == 0) {
+            /* Interpret "/healtz" to be same as "/healtz/v1" */
+            header->api.version = ogs_strdup(OGS_SBI_API_V1);
+        } else {
+            ogs_error("ogs_sbi_parse_uri() failed");
+            ogs_free(uri);
+            return OGS_ERROR;
+        }
     }
     message->h.api.version = header->api.version;
 

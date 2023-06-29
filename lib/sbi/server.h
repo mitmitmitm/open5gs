@@ -83,6 +83,8 @@ bool ogs_sbi_server_send_response(
 bool ogs_sbi_server_send_error(ogs_sbi_stream_t *stream,
         int status, ogs_sbi_message_t *message,
         const char *title, const char *detail);
+bool ogs_sbi_server_send_livez_response(ogs_sbi_stream_t *stream,
+        ogs_sbi_message_t *message);
 bool ogs_sbi_server_send_problem(
         ogs_sbi_stream_t *stream, OpenAPI_problem_details_t *problem);
 

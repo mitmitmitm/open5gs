@@ -227,6 +227,10 @@ void nrf_state_operational(ogs_fsm_t *s, nrf_event_t *e)
             END
             break;
 
+        CASE(OGS_SBI_SERVICE_NAME_LIVEZ)
+            ogs_sbi_server_send_livez_response(stream, &message);
+            break;
+
         DEFAULT
             ogs_error("Invalid API name [%s]", message.h.service.name);
             ogs_assert(true ==

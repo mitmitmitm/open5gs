@@ -233,6 +233,10 @@ void amf_state_operational(ogs_fsm_t *s, amf_event_t *e)
             END
             break;
 
+        CASE(OGS_SBI_SERVICE_NAME_LIVEZ)
+            ogs_sbi_server_send_livez_response(stream, &sbi_message);
+            break;
+
         DEFAULT
             ogs_error("Invalid API name [%s]", sbi_message.h.service.name);
             ogs_assert(true ==

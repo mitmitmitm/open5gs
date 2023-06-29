@@ -277,6 +277,10 @@ void pcf_state_operational(ogs_fsm_t *s, pcf_event_t *e)
             }
             break;
 
+        CASE(OGS_SBI_SERVICE_NAME_LIVEZ)
+            ogs_sbi_server_send_livez_response(stream, &message);
+            break;
+
         DEFAULT
             ogs_error("Invalid API name [%s]", message.h.service.name);
             ogs_assert(true ==

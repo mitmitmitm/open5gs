@@ -206,6 +206,24 @@ bool ogs_sbi_server_send_error(ogs_sbi_stream_t *stream,
     return true;
 }
 
+bool ogs_sbi_server_send_livez_response(ogs_sbi_stream_t *stream,
+        ogs_sbi_message_t *message)
+{
+    ogs_sbi_message_t sendmsg;
+    ogs_sbi_response_t *response;
+
+    if (strcmp(message->h.method, OGS_SBI_HTTP_METHOD_GET) != 0)
+        return ogs_sbi_server_send_error(
+                stream, OGS_SBI_HTTP_STATUS_FORBIDDEN, message,
+                "Invalid HTTP method", message->h.method);
+
+    memset(&sendmsg, 0, sizeof(sendmsg));
+    response = ogs_sbi_build_response(
+            &sendmsg, OGS_SBI_HTTP_STATUS_NO_CONTENT);
+    ogs_assert(response);
+    return ogs_sbi_server_send_response(stream, response);
+}
+
 ogs_sbi_server_t *ogs_sbi_server_from_stream(ogs_sbi_stream_t *stream)
 {
     return ogs_sbi_server_actions.from_stream(stream);
